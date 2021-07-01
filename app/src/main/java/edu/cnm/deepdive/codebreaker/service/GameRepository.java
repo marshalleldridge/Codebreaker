@@ -5,7 +5,9 @@ import android.content.Context;
 import edu.cnm.deepdive.codebreaker.model.Game;
 import edu.cnm.deepdive.codebreaker.model.Guess;
 import io.reactivex.Single;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import org.jetbrains.annotations.NotNull;
 
 public class GameRepository {
 
@@ -36,10 +38,15 @@ public class GameRepository {
         .subscribeOn(Schedulers.io());
   }
 
-  public Single<Guess> addGuess(Game game, String text) {
+  public Single<Game> addGuess(Game game, String text) {
     Guess guess = new Guess();
     guess.setText(text);
-    return proxy.submitGuess(game.getId(), guess)
+    return proxy
+        .submitGuess(game.getId(), guess)
+        .map((completed_guess) -> {
+          game.getGuesses().add(completed_guess);
+          return game;
+        })
         .subscribeOn(Schedulers.io());
   }
 
