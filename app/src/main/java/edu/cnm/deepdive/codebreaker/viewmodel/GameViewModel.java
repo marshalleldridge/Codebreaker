@@ -23,25 +23,27 @@ import org.jetbrains.annotations.NotNull;
 public class GameViewModel extends AndroidViewModel implements LifecycleObserver {
 
   private final GameRepository repository;
-
   private final MutableLiveData<Game> game;
-
   private final MutableLiveData<String> pool;
-
   private final MutableLiveData<Throwable> throwable;
-
   private final CompositeDisposable pending;
-
   private final SharedPreferences preferences;
+  private final String basePool;
 
   public GameViewModel(@NonNull @NotNull Application application) {
     super(application);
     repository = new GameRepository(application);
     game = new MutableLiveData<>();
-    pool = new MutableLiveData<>("ABCDEF");
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
     preferences = PreferenceManager.getDefaultSharedPreferences(application);
+    String[] emojis = application.getResources().getStringArray(R.array.emojis);
+    StringBuilder builder = new StringBuilder();
+    for (String emoji : emojis) {
+      builder.append(emoji);
+    }
+    basePool = builder.toString();
+    pool = new MutableLiveData<>(basePool);
     startGame();
   }
 
