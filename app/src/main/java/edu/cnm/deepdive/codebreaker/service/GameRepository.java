@@ -13,13 +13,16 @@ public class GameRepository {
   private final CodebreakerServiceProxy proxy;
   private final Context context;
   private final CompletedGameDao completedGameDao;
+  //TODO add fields for game and guess dao
 
   public GameRepository(Context context) {
     this.context = context;
     proxy = CodebreakerServiceProxy.getInstance();
     completedGameDao = CodebreakerDatabase.getInstance().getCompletedGameDao();
+    //TODO initialize game and guess dao
   }
 
+  //TODO modify to write game to database after receiving from server
   public Single<Game> create(String pool, int length) {
     Game gameStub = new Game();
     gameStub.setPool(pool);
@@ -28,6 +31,7 @@ public class GameRepository {
         .subscribeOn(Schedulers.io());
   }
 
+  //TODO simplify by using pojo
   public Single<Game> get(String id) {
     return proxy.getGame(id)
         .flatMap((game) -> proxy.getGuesses(game.getServiceKey())
@@ -38,6 +42,7 @@ public class GameRepository {
         .subscribeOn(Schedulers.io());
   }
 
+  //TODO write to database after receiving guess from server
   public Single<Game> addGuess(Game game, String text) {
     Guess guess = new Guess();
     guess.setText(text);
