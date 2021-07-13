@@ -25,15 +25,15 @@ public class Game {
   private long id;
 
   @Expose
-  @NonNull
   @SerializedName("id")
-  @ColumnInfo(name = "service_key", index = true)
+  @ColumnInfo(name = "service_key")
+  @NonNull
   private String serviceKey;
 
   @Expose
-  @NonNull
   @ColumnInfo(index = true)
-  private Date created; // = new Date(); <-autogenerate date field in room
+  @NonNull
+  private Date created;
 
   @Expose
   @NonNull
@@ -44,13 +44,10 @@ public class Game {
   private int length;
 
   @Expose
-  @ColumnInfo(index = true)
   private boolean solved;
 
   @ColumnInfo(name = "pool_size", index = true)
   private int poolSize;
-
-
 
   public long getId() {
     return id;
@@ -110,4 +107,5 @@ public class Game {
   public void setPoolSize(int poolSize) {
     this.poolSize = poolSize;
   }
+
 }

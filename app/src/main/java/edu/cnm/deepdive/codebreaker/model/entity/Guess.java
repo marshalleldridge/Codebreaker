@@ -18,7 +18,7 @@ import java.util.Date;
     foreignKeys = {
         @ForeignKey(
             entity = Game.class,
-            childColumns = {"guess_id"},
+            childColumns = {"game_id"},
             parentColumns = {"game_id"},
             onDelete = ForeignKey.CASCADE
         )
@@ -31,9 +31,9 @@ public class Guess {
   private long id;
 
   @Expose
-  @NonNull
   @SerializedName("id")
-  @ColumnInfo(name = "service_key", index = true)
+  @ColumnInfo(name = "service_key")
+  @NonNull
   private String serviceKey;
 
   @ColumnInfo(name = "game_id", index = true)
@@ -45,8 +45,8 @@ public class Guess {
   private Date created;
 
   @Expose
-  @NonNull
   @ColumnInfo(name = "guess_text")
+  @NonNull
   private String text;
 
   @Expose
@@ -59,8 +59,6 @@ public class Guess {
 
   @Expose
   private boolean solution;
-
-
 
   public long getId() {
     return id;
